@@ -158,8 +158,7 @@ class Blocksmashers
         self.continue
       when "e"
         print "Which title to update? Enter number: "
-        @num = gets.chomp - 1
-        puts
+        @num = gets.chomp.to_i - 1
         if self.valid_option(@num)
           print "Enter Media Type ('DVD', 'VHS', 'Videogame') or Press [ENTER] to leave as is: "
           @item_type = gets.chomp.to_s
@@ -171,18 +170,21 @@ class Blocksmashers
   
           print "Enter Media Year (optional) or Press [ENTER] to leave as is: "
           @year = gets.chomp.to_i
-          @year = @inventory[@num].year if @year == 0 || @year.class != Integer || @year.length == 0
+          @year = @inventory[@num].year if @year == 0 || @year.class != Integer || @year < 0
   
           print "Enter Copies Available or Press [ENTER] to leave as is: "
           @available = gets.chomp.to_i
-          @available = @inventory[@num].available if @available.class != Integer || @available.length == 0
+          @available = @inventory[@num].available if @available.class != Integer || @available < 0
 
           print "Enter Copies Rented Out or Press [ENTER] to leave as is: "
           @rented = gets.chomp.to_i
-          @rented = @inventory[@num].rented if @rented.class != Integer || @rented.length == 0
-
-          puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) Available: #{@inventory[@num].available}, Rented: @{@inventory[@num].rented} UPDATED."
+          @rented = @inventory[@num].rented if @rented.class != Integer || @rented < 0
+          
+          self.update(@num, @item_type, @title, @year, @available, @rented)
+          puts
+          puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) Available: #{@inventory[@num].available}, Rented: #{@inventory[@num].rented} UPDATED."
         end
+        self.continue
       when "f"
         system("clear")
         puts "Goodbye!"
