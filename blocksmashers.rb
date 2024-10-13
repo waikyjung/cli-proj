@@ -23,15 +23,26 @@ class Blocksmashers
     @inventory.sort_by!(&:item_type)
   end
   
-  @@lines = "-" * 50
+  @@lines = "-" * 100
+  @@stars = "*" * 30
   def welcome
     puts @@lines
-    puts "            Welcome to Blocksmashers!"
+    puts "Welcome to Blocksmashers Video!"
     puts @@lines
   end
 
   def options
-    puts "Enter: (a) Display Titles, (b) Rent Out Title (c) Return Title, (d) Add Title (e) Remove Title (f) Exit" 
+    puts "(a) Rent Out Title (b) Return Title, (c) Add Title (d) Remove Title (e) Exit" 
+  end
+
+  def invalid
+    puts
+    puts "Invalid Option, Try Again!"
+  end
+
+  def continue
+    puts "Press any key to continue..."
+    gets  
   end
 
   def display
@@ -81,10 +92,23 @@ class Blocksmashers
       puts @@lines
       self.options
       puts @@lines
+      print "Enter Option: "
       select = gets.chomp
-      if select.downcase == "f"
-        puts "Goodbye!"
+      case select.downcase
+      when "a"
+        print "Which title to rent out? Enter Number: "
+        num = gets.chomp.to_i - 1
+        puts
+        puts self.rent(num) == true ? "[#{@inventory[num].item_type}] #{@inventory[num].title} (#{@inventory[num].year}) rented." : "[#{@inventory[num].item_type}] #{@inventory[num].title} (#{@inventory[num].year}) NOT AVAILABLE for rent!"
+        self.continue
+      when "b"
+      when "c"
+      when "d"
+      when "e"
         break
+      else
+        self.invalid
+        self.continue
       end
     end
   end
