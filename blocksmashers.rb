@@ -63,8 +63,12 @@ class Blocksmashers
     self.sort_titles
   end
 
-  def update(num)
-
+  def update(num, item_type, title, year, available, rented)
+    @inventory[num].item_type = item_type
+    @inventory[num].title = title
+    @inventory[num].year = year
+    @inventory[num].available = available
+    @inventory[num].rented = rented
   end
 
   def rent(num)
@@ -132,30 +136,53 @@ class Blocksmashers
 
         print "Enter Copies Available: "
         @available = gets.chomp.to_i
-
+        puts
         if @title.length > 0 && @available > 0 && @available.class == Integer
           self.add(@item_type, @title, @year, @available, "")
-          puts
           puts "[#{@item_type}] #{@title} (#{@year}) x #{@available} ADDED TO INVENTORY."
         else
-          puts
           puts "Some data not entered correctly! Please check and try again!"
         end
         self.continue
       when "d"
         print "Which title to remove? Enter Number: "
         @num = gets.chomp.to_i - 1
+        puts
         if self.valid_option(@num)
           @temp = [@inventory[@num].item_type, @inventory[@num].title, @inventory[@num].year]
           self.remove(@num)
-          puts
           puts "[#{@temp[0]}] #{@temp[1]} (#{@temp[2]}) REMOVED."
         else
           puts "Invalid Option, Try Again!"
         end
         self.continue
       when "e"
+        print "Which title to update? Enter number: "
+        @num = gets.chomp - 1
+        puts
+        if self.valid_option(@num)
+          print "Enter Media Type ('DVD', 'VHS', 'Videogame') or Press [ENTER] to leave as is: "
+          @item_type = gets.chomp.to_s
+          @item_type = @inventory[@num].item_type if @item_type.length == 0
+  
+          print "Enter Media Title or Press [ENTER] to leave as is: "
+          @title = gets.chomp.to_s
+          @title = @inventory[@num].title if @title.length == 0
+  
+          print "Enter Media Year (optional) or Press [ENTER] to leave as is: "
+          @year = gets.chomp.to_i
+          @year = @inventory[@num].year if @year == 0 || @year.class != Integer || @year.length == 0
+  
+          print "Enter Copies Available or Press [ENTER] to leave as is: "
+          @available = gets.chomp.to_i
+          @available = @inventory[@num].available if @available.class != Integer || @available.length == 0
 
+          print "Enter Copies Rented Out or Press [ENTER] to leave as is: "
+          @rented = gets.chomp.to_i
+          @rented = @inventory[@num].rented if @rented.class != Integer || @rented.length == 0
+
+          puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) Available: #{@inventory[@num].available}, Rented: @{@inventory[@num].rented} UPDATED."
+        end
       when "f"
         system("clear")
         puts "Goodbye!"
@@ -169,8 +196,5 @@ class Blocksmashers
   end
 end
 
-
-x = Blocksmashers.new
-#puts x.rent(0) == true ? "rented!" : "denied"
-#puts x.return(0) == true ? "returned!" : "denied"
-x.start
+store = Blocksmashers.new
+store.start
