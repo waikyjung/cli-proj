@@ -23,7 +23,12 @@ class Blocksmashers
   end
 
   def display
-    @inventory.each { |item| puts "#{num.next}. [#{item.item_type}] #{item.title} (#{item.year}) - Available: #{item.stock}" }
+    self.sort_titles
+    num = 0
+    @inventory.each do |item| 
+      num += 1
+      puts "#{num}) [#{item.item_type}] #{item.title} (#{item.year}) - Available: #{item.stock}"
+    end
   end
 
   def add_title(title, year, item_type, stock)
