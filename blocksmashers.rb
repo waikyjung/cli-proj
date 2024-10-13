@@ -1,4 +1,6 @@
+require "active_support/all"
 require_relative "./bs_inventory"
+
 class Rental
   attr_accessor :item_type, :title, :year, :available, :rented
   def initialize(item_type, title, year, available, rented)
