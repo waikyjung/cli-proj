@@ -32,7 +32,7 @@ class Blocksmashers
   end
 
   def options
-    puts "(a) Rent Out Title (b) Return Title, (c) Add Title (d) Remove Title (e) Update Title (f) Exit" 
+    puts "(a) Rent Out Title (b) Return Title (c) Add Title (d) Remove Title (e) Update Title (f) Exit" 
   end
 
   def continue
