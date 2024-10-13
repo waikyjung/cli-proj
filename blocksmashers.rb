@@ -10,6 +10,10 @@ class Rental
     @available = available
     @rented = rented
   end
+
+  def info
+    "[#{@item_type}] #{@title} (#{@year}) - Available: #{@available} - Rented: #{@rented}"
+  end
 end
 
 class Blocksmashers
@@ -51,7 +55,7 @@ class Blocksmashers
     @num = 0
     @inventory.each do |item| 
       @num += 1
-      puts "#{@num}) [#{item.item_type}] #{item.title} (#{item.year}) - Available: #{item.available} - Rented: #{item.rented}"
+      puts "#{@num} #{item.info}"
     end
   end
 
@@ -110,14 +114,13 @@ class Blocksmashers
         puts
         if self.valid_option(@num) == true
           if self.rent(@num) == true
-            puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) RENTED OUT."
+            puts "#{@inventory[@num].info} RENTED OUT."
           else
-            puts"[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) NOT AVAILABLE FOR RENT!"
-            
+            puts "#{@inventory[@num].info}, NOT AVAILABLE FOR RENT!"
             10.times do
               @random_title = rand(1..@inventory.count).to_i - 1
               if @random_title != @num && @inventory[@random_title].item_type == @inventory[@num].item_type && @inventory[@random_title].available > 0
-                puts "Suggest [#{@inventory[@random_title].item_type}] #{@inventory[@random_title].title} (#{@inventory[@random_title].year}) to rent instead."
+                puts "Suggest #{@inventory[@random_title].info}, to rent instead."
                 break
               end
             end
@@ -131,7 +134,7 @@ class Blocksmashers
         @num = gets.chomp.to_i - 1
         puts
         if self.valid_option(@num)
-          puts self.return(@num) == true ? "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) RETURNED." : "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) SHOULD NOT HAVE ANY COPIES RENTED OUT!"
+          puts self.return(@num) == true ? "#{@inventory[@num].info}, RETURNED." : "#{@inventory[@num].info}, SHOULD NOT HAVE ANY COPIES TO RENT OUT!"
         else
           puts "Invalid Option, Try Again!"
         end
@@ -153,7 +156,7 @@ class Blocksmashers
         puts
         if @title.length > 0 && @available > 0 && @available.class == Integer
           self.add(@item_type, @title, @year, @available, "")
-          puts "[#{@item_type}] #{@title} (#{@year}) x #{@available} ADDED TO INVENTORY."
+          puts "[#{@item_type}] #{@title} (#{@year}) - Available: #{@available}, ADDED TO INVENTORY."
         else
           puts "Some data not entered correctly! Please check and try again!"
         end
@@ -161,11 +164,11 @@ class Blocksmashers
       when "d"
         print "Which title to remove? Enter Number: "
         @num = gets.chomp.to_i - 1
+        @title = @inventory[@num].info
         puts
         if self.valid_option(@num)
-          @temp = [@inventory[@num].item_type, @inventory[@num].title, @inventory[@num].year]
           self.remove(@num)
-          puts "[#{@temp[0]}] #{@temp[1]} (#{@temp[2]}) REMOVED."
+          puts "#{@title}, REMOVED."
         else
           puts "Invalid Option, Try Again!"
         end
@@ -197,7 +200,8 @@ class Blocksmashers
           
           self.update(@num, @item_type, @title, @year, @available, @rented)
           puts
-          puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) Available: #{@inventory[@num].available}, Rented: #{@inventory[@num].rented} UPDATED."
+          #puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) Available: #{@inventory[@num].available}, Rented: #{@inventory[@num].rented} UPDATED."
+          puts "#{@inventory[@num].info}, UPDATED."
         end
         self.continue
       when "f"
