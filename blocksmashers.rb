@@ -216,5 +216,5 @@ class Blocksmashers
   end
 end
 
-#store = Blocksmashers.new
-#store.start
+store = Blocksmashers.new
+store.start
