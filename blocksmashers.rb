@@ -1,10 +1,10 @@
 require_relative "./bs_inventory"
 class Rental
-  attr_accessor :title, :year, :item_type, :available, :rented
-  def initialize(title, year, item_type, available, rented)
+  attr_accessor :item_type, :title, :year, :available, :rented
+  def initialize(item_type, title, year, available, rented)
+    @item_type = item_type
     @title = title
     @year = year
-    @item_type = item_type
     @available = available
     @rented = rented
   end
@@ -32,12 +32,7 @@ class Blocksmashers
   end
 
   def options
-    puts "(a) Rent Out Title (b) Return Title, (c) Add Title (d) Remove Title (e) Exit" 
-  end
-
-  def invalid
-    puts
-    puts "Invalid Option, Try Again!"
+    puts "(a) Rent Out Title (b) Return Title, (c) Add Title (d) Remove Title (e) Update Title (f) Exit" 
   end
 
   def continue
@@ -45,23 +40,31 @@ class Blocksmashers
     gets  
   end
 
+  def valid_option(num)
+    return num.class == Integer && num >= 0 && num < @inventory.count ? true : false
+  end
+
   def display
     self.sort_titles
-    num = 0
+    @num = 0
     @inventory.each do |item| 
-      num += 1
-      puts "#{num}) [#{item.item_type}] #{item.title} (#{item.year}) - Available: #{item.available} - Rented: #{item.rented}"
+      @num += 1
+      puts "#{@num}) [#{item.item_type}] #{item.title} (#{item.year}) - Available: #{item.available} - Rented: #{item.rented}"
     end
   end
 
-  def add(title, year, item_type, available, rented)
-    @inventory.push Rental.new(title, year, item_type, available, rented = 0)
+  def add(item_type, title, year, available, rented)
+    @inventory.push Rental.new(item_type, title, year, available, rented = 0)
     self.sort_titles
   end
 
   def remove(num)
     @inventory.delete_at(num)
     self.sort_titles
+  end
+
+  def update(num)
+
   end
 
   def rent(num)
@@ -97,17 +100,69 @@ class Blocksmashers
       case select.downcase
       when "a"
         print "Which title to rent out? Enter Number: "
-        num = gets.chomp.to_i - 1
+        @num = gets.chomp.to_i - 1
         puts
-        puts self.rent(num) == true ? "[#{@inventory[num].item_type}] #{@inventory[num].title} (#{@inventory[num].year}) rented." : "[#{@inventory[num].item_type}] #{@inventory[num].title} (#{@inventory[num].year}) NOT AVAILABLE for rent!"
+        if self.valid_option(@num) == true
+          puts self.rent(@num) == true ? "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) RENTED OUT." : "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) NOT AVAILABLE FOR RENT!"
+        else
+          puts "Invalid Option, Try Again!"
+        end
         self.continue
       when "b"
+        print "Which title to return? Enter Number: "
+        @num = gets.chomp.to_i - 1
+        puts
+        if self.valid_option(@num)
+          puts self.return(@num) == true ? "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) RETURNED." : "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) SHOULD NOT HAVE ANY COPIES RENTED OUT!"
+        else
+          puts "Invalid Option, Try Again!"
+        end
+        self.continue
       when "c"
+        print "Enter Media Type ('DVD', 'VHS', 'Videogame'): "
+        @item_type = gets.chomp.to_s
+        @item_type = "n/a" if @item_type.length == 0
+
+        print "Enter Media Title: "
+        @title = gets.chomp.to_s
+
+        print "Enter Media Year (optional): "
+        @year = gets.chomp.to_i
+        @year = "n/a" if @year == 0 || @year.class != Integer
+
+        print "Enter Copies Available: "
+        @available = gets.chomp.to_i
+
+        if @title.length > 0 && @available > 0 && @available.class == Integer
+          self.add(@item_type, @title, @year, @available, "")
+          puts
+          puts "[#{@item_type}] #{@title} (#{@year}) x #{@available} ADDED TO INVENTORY."
+        else
+          puts
+          puts "Some data not entered correctly! Please check and try again!"
+        end
+        self.continue
       when "d"
+        print "Which title to remove? Enter Number: "
+        @num = gets.chomp.to_i - 1
+        if self.valid_option(@num)
+          @temp = [@inventory[@num].item_type, @inventory[@num].title, @inventory[@num].year]
+          self.remove(@num)
+          puts
+          puts "[#{@temp[0]}] #{@temp[1]} (#{@temp[2]}) REMOVED."
+        else
+          puts "Invalid Option, Try Again!"
+        end
+        self.continue
       when "e"
+
+      when "f"
+        system("clear")
+        puts "Goodbye!"
         break
       else
-        self.invalid
+        puts
+        puts "Invalid Option, Try Again!"
         self.continue
       end
     end
