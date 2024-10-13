@@ -22,6 +22,17 @@ class Blocksmashers
     @inventory.sort_by!(&:title)
     @inventory.sort_by!(&:item_type)
   end
+  
+  @@lines = "-" * 50
+  def welcome
+    puts @@lines
+    puts "            Welcome to Blocksmashers!"
+    puts @@lines
+  end
+
+  def options
+    puts "Enter: (a) Display Titles, (b) Rent Out Title (c) Return Title, (d) Add Title (e) Remove Title (f) Exit" 
+  end
 
   def display
     self.sort_titles
@@ -52,10 +63,35 @@ class Blocksmashers
     end
   end
 
-  
+  def return(num)
+    if @inventory[num].rented > 0
+      @inventory[num].available += 1
+      @inventory[num].rented -= 1
+      return true
+    else
+      return false
+    end
+  end
+
+  def start
+    loop do
+      system("clear")
+      self.welcome
+      self.display
+      puts @@lines
+      self.options
+      puts @@lines
+      select = gets.chomp
+      if select.downcase == "f"
+        puts "Goodbye!"
+        break
+      end
+    end
+  end
 end
 
-system("clear")
+
 x = Blocksmashers.new
-puts x.rent(0) == true ? "rented!" : "denied"
-x.display
+#puts x.rent(0) == true ? "rented!" : "denied"
+#puts x.return(0) == true ? "returned!" : "denied"
+x.start
