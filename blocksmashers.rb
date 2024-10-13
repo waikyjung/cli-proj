@@ -160,25 +160,26 @@ class Blocksmashers
         print "Which title to update? Enter number: "
         @num = gets.chomp.to_i - 1
         if self.valid_option(@num)
+          
           print "Enter Media Type ('DVD', 'VHS', 'Videogame') or Press [ENTER] to leave as is: "
           @item_type = gets.chomp.to_s
           @item_type = @inventory[@num].item_type if @item_type.length == 0
-  
+
           print "Enter Media Title or Press [ENTER] to leave as is: "
           @title = gets.chomp.to_s
           @title = @inventory[@num].title if @title.length == 0
   
           print "Enter Media Year (optional) or Press [ENTER] to leave as is: "
           @year = gets.chomp.to_i
-          @year = @inventory[@num].year if @year == 0 || @year.class != Integer || @year < 0
+          @year = @inventory[@num].year if @year <= 0 || @year.class != Integer
   
           print "Enter Copies Available or Press [ENTER] to leave as is: "
           @available = gets.chomp.to_i
-          @available = @inventory[@num].available if @available.class != Integer || @available < 0
+          @available = @inventory[@num].available if @available <= 0 || @available.class != Integer
 
           print "Enter Copies Rented Out or Press [ENTER] to leave as is: "
           @rented = gets.chomp.to_i
-          @rented = @inventory[@num].rented if @rented.class != Integer || @rented < 0
+          @rented = @inventory[@num].rented if @rented <= 0 || @rented.class != Integer
           
           self.update(@num, @item_type, @title, @year, @available, @rented)
           puts
