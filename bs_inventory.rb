@@ -1,6 +1,6 @@
 $starting_inventory = [
   ["DVD", "Batman", 1990, 5, 1],
-  ["DVD", "Batman Returns", 1992, 5, 0],
+  ["DVD", "Batman Returns", 1992, 0, 5],
   ["VHS", "Teenage Mutant Ninja Turtles", 1987, 5, 1],
   ["VHS", "Forrest Gump", 1994, 5, 0],
   ["DVD", "The Fast & The Furious 23: Seniors on Patrol", 2028, 100, 0],

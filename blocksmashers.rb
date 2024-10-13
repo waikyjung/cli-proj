@@ -107,7 +107,19 @@ class Blocksmashers
         @num = gets.chomp.to_i - 1
         puts
         if self.valid_option(@num) == true
-          puts self.rent(@num) == true ? "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) RENTED OUT." : "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) NOT AVAILABLE FOR RENT!"
+          if self.rent(@num) == true
+            puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) RENTED OUT."
+          else
+            puts"[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) NOT AVAILABLE FOR RENT!"
+            
+            10.times do
+              @random_title = rand(1..@inventory.count).to_i - 1
+              if @random_title != @num && @inventory[@random_title].item_type == @inventory[@num].item_type && @inventory[@random_title].available > 0
+                puts "Suggest [#{@inventory[@random_title].item_type}] #{@inventory[@random_title].title} (#{@inventory[@random_title].year}) to rent instead."
+                break
+              end
+            end
+          end
         else
           puts "Invalid Option, Try Again!"
         end
