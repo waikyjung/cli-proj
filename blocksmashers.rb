@@ -200,7 +200,6 @@ class Blocksmashers
           
           self.update(@num, @item_type, @title, @year, @available, @rented)
           puts
-          #puts "[#{@inventory[@num].item_type}] #{@inventory[@num].title} (#{@inventory[@num].year}) Available: #{@inventory[@num].available}, Rented: #{@inventory[@num].rented} UPDATED."
           puts "#{@inventory[@num].info}, UPDATED."
         end
         self.continue
@@ -217,5 +216,5 @@ class Blocksmashers
   end
 end
 
-store = Blocksmashers.new
-store.start
+#store = Blocksmashers.new
+#store.start
