@@ -7,8 +7,8 @@ This inventory program management program will allow a user to manage, add, remo
 ## Starting the Program
 To start the program, create a new store, then call the new store with ".start":
 ```
-store = Blocksmashers.new
-store.start
+new_store = Blocksmashers.new
+new_store.start
 ```
 
 ## Using the Program
