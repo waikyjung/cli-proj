@@ -4,8 +4,15 @@ This is an inventory management program for Blocksmashers Video.
 ## Description
 This inventory program management program will allow a user to manage, add, remove, & update rentals.
 
-## Getting Started
-Once the program is opened, it will auto start by creating a store. It should display a list of rental titles and 6 options:
+## Starting the Program
+To start the program, create a new store, then call the new store with ".start":
+```
+store = Blocksmashers.new
+store.start
+```
+
+## Using the Program
+After starting, it should display a list of rental titles and 6 options:
 
 - (a) Rent Out Title
 - (b) Return Title
