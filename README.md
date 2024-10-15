@@ -1,11 +1,16 @@
 # Introduction
-This is an inventory management program for Blocksmashers Video.
+This is an inventory management application for Blocksmashers Video.
 
 ## Description
-This inventory program management program will allow a user to manage, add, remove, & update rentals.
+This inventory management application will allow a user to manage, add, remove, & update rentals.
 
-## Starting the Program
-To start the program, create a new store, then call the new store with ".start":
+## Starting the Application
+To start the application:
+```
+ruby blocksmashers.rb
+```
+
+If the following is not at the bottom, type the code below to create a new store, then the new store with ".start":
 ```
 new_store = Blocksmashers.new
 new_store.start
