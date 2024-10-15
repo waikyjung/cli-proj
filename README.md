@@ -16,7 +16,7 @@ new_store = Blocksmashers.new
 new_store.start
 ```
 
-## Using the Program
+## Using the Application
 After starting, it should display a list of rental titles and 6 options:
 
 - (a) Rent Out Title
